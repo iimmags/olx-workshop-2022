@@ -22,7 +22,7 @@ func main() {
 
 	router.
 		PathPrefix("/static/").
-		Handler(http.StripPrefix("/", http.FileServer(http.Dir("./static/"))))
+		Handler(http.StripPrefix("/static", http.FileServer(http.Dir("./static/"))))
 
 	allowedMethods := []string{
 		http.MethodGet,
