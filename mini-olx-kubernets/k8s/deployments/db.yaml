@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: db                                   # name of the resource
+  labels:
+    app: db
+  namespace: mini-olx                        # namespace
+spec:
+  replicas: 1                                # we only want 1 replica running
+  selector:
+    matchLabels:
+      app: db
+  template:
+    metadata:
+      labels:
+        app: db
+    spec:
+      containers:
+        - name: mysql
+          image: mysql:5.7.22
+          resources:
+            requests:
+              memory: "1Gi"
+              cpu: "250m"
+            limits:
+              memory: "1Gi"
+              cpu: "500m"
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              value: ""
+            - name: MYSQL_ALLOW_EMPTY_PASSWORD
+              value: "1"
+          ports:
+            - containerPort: 3306
+              name: mysql
+          volumeMounts:
+            - name: mysql-persistent-storage    # use our persistent volume
+              mountPath: /var/lib/mysql
+      volumes:
+        - name: mysql-persistent-storage        # use the persistent volume claim
+          persistentVolumeClaim:
+            claimName: mysql-pv-claim

@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: webserver           # name of the resource
+  labels:
+    app: frontend
+    env: production
+spec:
+  containers:
+    - name: webserver       # name of the container
+      image: nginx:latest   # image to be downloaded
+      ports:
+        - containerPort: 80   # nginx is running on port 80
+          name: http
+      resources:
+        requests:
+          memory: "1Gi" # request 1Gi memory
+          cpu: "250m"   # request 250 milicores
+        limits:
+          memory: "1Gi" # limit memory to 1Gi
+          cpu: "500m"   # limit CPU to 500 milicores
